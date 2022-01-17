@@ -16,11 +16,13 @@ class CreateValidationsTable extends Migration
         Schema::create('validations', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('student_id');
+            $table->unsignedBigInteger('user_id');
             $table->string('matricula');
             $table->enum('validationResult', ['NO_RECONOCIDO', 'RECONOCIDO'])->default('NO_RECONOCIDO');
             $table->timestamps();
 
             $table->foreign('student_id')->references('id')->on('students');
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 

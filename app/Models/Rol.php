@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Student extends Model
+class Rol extends Model
 {
     use HasFactory;
 
@@ -15,14 +15,13 @@ class Student extends Model
      * @var array
      */
     protected $fillable = [
-        'matricula', 
-        'fullname', 
-        'namePicture',
+        'name', 
+        'status',
     ];
 
-    public function validations()
+    public function user()
     {
-        return $this->hasMany(Validation::class);
+        return $this->hasOne(User::class);
     }
 
 }
