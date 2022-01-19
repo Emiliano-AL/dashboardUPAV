@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Rol;
+use App\Models\User;
 
 class RolController extends Controller
 {
@@ -93,8 +94,12 @@ class RolController extends Controller
      */
     public function destroy($id)
     {
+        $user = User::where('rol_id', decrypt($id))->count();
+        if ($user >= 1) {
+            return redirect()->back()->with('error', 'Debes eliminar primero los usuarios con este rol');
+        }
         $rol = Rol::find(decrypt($id));
-        $rol->delete();
+        $rol->user->delete();
         return redirect('dashboard/rol')->with('info', 'El rol se eliminó correctamente');
     }
 }

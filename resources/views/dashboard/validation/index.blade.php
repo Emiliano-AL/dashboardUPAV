@@ -37,6 +37,7 @@
                           <th>ID</th>
                           <th>Matrícula</th>
                           <th>Nombre</th>
+                          <th>Estatus</th>
                           <th></th>
                       </tr>
                   </thead>
@@ -46,6 +47,7 @@
                               <td>{{$student->id}}</td>
                               <td>{{$student->matricula}}</td>
                               <td>{{$student->fullname}}</td>
+                              <td>RECONOCIDO</td>
                               <td>
                                 <button type="button" class="btn btn-success btn-sm mb-2" data-toggle="modal" data-target="#validatestudent">
                                     Validar Estudiante

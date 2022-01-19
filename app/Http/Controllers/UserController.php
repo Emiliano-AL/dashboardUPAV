@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Rol;
+use App\Models\Validation;
 
 class UserController extends Controller
 {
@@ -118,6 +119,10 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
+        $validation = Validation::where('user_id', decrypt($id))->count();
+        if ($validation >= 1) {
+            return redirect()->back()->with('error', 'El usuario ha validado estudiantes');
+        }
         $usuario = User::find(decrypt($id));
         $usuario->delete();
         return redirect('dashboard/user')->with('info', 'El usuario se eliminó correctamente');

@@ -93,6 +93,9 @@ class StudentController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $student = Student::find(decrypt($id));
+        $student->validations()->delete();
+        $student->delete();
+        return redirect('dashboard/student')->with('info', 'El estudiante se eliminó correctamente');
     }
 }
