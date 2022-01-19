@@ -5,6 +5,7 @@ use App\Http\Controllers\RolController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\ValidationController;
+use App\Http\Controllers\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,14 +20,27 @@ use App\Http\Controllers\ValidationController;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->middleware('guest');
 
 Route::group([
-    'prefix' => 'dashboard'
+    'prefix' => 'auth'
+], function () {
+    Route::post('login', [AuthController::class, 'login']);
+    Route::group([
+            'middleware' => 'auth'
+        ], function() { 
+        Route::post('logout', [AuthController::class, 'logout']);
+    });
+});
+/*Route::post('register', [AuthController::class, 'register']);*/
+
+Route::group([
+    'prefix' => 'dashboard',
+    'middleware' => 'auth',
 ], function () {
     
     //DASHBOARD
-    Route::get('home', [HomeController::class, 'dashboard']);
+    Route::get('home', [AuthController::class, 'dashboard']);
 
     //ADMINISTRATION
     Route::resource('rol', RolController::class);
