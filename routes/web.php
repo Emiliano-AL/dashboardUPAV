@@ -1,6 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\RolController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\StudentController;
+use App\Http\Controllers\ValidationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,4 +19,19 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
+});
+
+Route::group([
+    'prefix' => 'dashboard'
+], function () {
+    
+    //DASHBOARD
+    Route::get('home', [HomeController::class, 'dashboard']);
+
+    //ADMINISTRATION
+    Route::resource('rol', RolController::class);
+    Route::resource('user', UserController::class);
+    Route::resource('student', StudentController::class);
+    Route::resource('validation', ValidationController::class);
+
 });

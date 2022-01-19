@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title_content')
-  <h1>Roles</h1>
+  <h1> Validar Estudiantes</h1>
 @endsection
 
 @section('content2')
@@ -14,7 +14,7 @@
           </strong>
       </div>
       <div class="col-md-6" align="right">
-          <a href="{{ url('/dashboard/rol/create') }}" class="btn btn-success btn-sm mb-2">Nuevo Rol</a>
+        
       </div>
     </div>
     @if(session('info'))
@@ -29,37 +29,27 @@
   <!-- /.card-header -->
   <div class="card-body">
       <div class="card">
-          @if ($roles->count())
+          @if ($students->count())
           <div class="card-body">
               <table class="table table-striped" id="all">
                   <thead>
                       <tr>
                           <th>ID</th>
+                          <th>Matrícula</th>
                           <th>Nombre</th>
-                          <th>Estatus</th>
-                          <th></th>
                           <th></th>
                       </tr>
                   </thead>
                   <tbody>
-                      @foreach ($roles as $role)
+                      @foreach ($students as $student)
                           <tr>
-                              <td>{{$role->id}}</td>
-                              <td>{{$role->name}}</td>
-                              @if($role->status == true)
-                              <td>Activo</td>
-                              @else
-                              <td bgcolor="yellow">Inactivo</td>
-                              @endif
-                              <td width="10px">
-                                  <a class="btn btn-sm btn-primary" href="{{ url('/dashboard/rol/'.encrypt($role->id).'/edit') }}">Editar</a>
-                              </td>
-                              <td width="10px">
-                                  <form action="{{ url('/dashboard/rol/'.encrypt($role->id).'') }}" method="post">
-                                      @method('DELETE')
-                                      @csrf
-                                      <button type="submit" class="btn btn-sm btn-danger">Eliminar</button>
-                                  </form>
+                              <td>{{$student->id}}</td>
+                              <td>{{$student->matricula}}</td>
+                              <td>{{$student->fullname}}</td>
+                              <td>
+                                <button type="button" class="btn btn-success btn-sm mb-2" data-toggle="modal" data-target="#validatestudent">
+                                    Validar Estudiante
+                                </button>
                               </td>
                           </tr>
                       @endforeach
@@ -76,4 +66,28 @@
   <!-- /.card-body -->
 </div>
 <!-- /.card -->
+
+<div class="modal fade" id="validatestudent">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Validar Estudiante</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            
+        </div>
+        <div class="modal-footer justify-content-between">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+            <button type="button" class="btn btn-primary">Validar</button>
+        </div>
+      </div>
+      <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
 @endsection

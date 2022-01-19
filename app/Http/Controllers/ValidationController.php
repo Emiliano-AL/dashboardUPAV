@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Validation;
 use App\Http\Requests\StoreValidationRequest;
 use App\Http\Requests\UpdateValidationRequest;
+use App\Models\Student;
 
 class ValidationController extends Controller
 {
@@ -15,7 +16,8 @@ class ValidationController extends Controller
      */
     public function index()
     {
-        //
+        $students = Student::paginate(10);
+        return view('dashboard.validation.index', compact('students'));
     }
 
     /**

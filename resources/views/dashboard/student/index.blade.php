@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title_content')
-  <h1>Roles</h1>
+  <h1>Estudiantes</h1>
 @endsection
 
 @section('content2')
@@ -14,7 +14,9 @@
           </strong>
       </div>
       <div class="col-md-6" align="right">
-          <a href="{{ url('/dashboard/rol/create') }}" class="btn btn-success btn-sm mb-2">Nuevo Rol</a>
+        <button type="button" class="btn btn-success btn-sm mb-2" data-toggle="modal" data-target="#addstudent">
+            Nuevo Estudiante
+        </button>
       </div>
     </div>
     @if(session('info'))
@@ -29,33 +31,31 @@
   <!-- /.card-header -->
   <div class="card-body">
       <div class="card">
-          @if ($roles->count())
+          @if ($students->count())
           <div class="card-body">
               <table class="table table-striped" id="all">
                   <thead>
                       <tr>
                           <th>ID</th>
+                          <th>Matrícula</th>
                           <th>Nombre</th>
-                          <th>Estatus</th>
+                          <th>Fotografia</th>
                           <th></th>
                           <th></th>
                       </tr>
                   </thead>
                   <tbody>
-                      @foreach ($roles as $role)
+                      @foreach ($students as $student)
                           <tr>
-                              <td>{{$role->id}}</td>
-                              <td>{{$role->name}}</td>
-                              @if($role->status == true)
-                              <td>Activo</td>
-                              @else
-                              <td bgcolor="yellow">Inactivo</td>
-                              @endif
+                              <td>{{$student->id}}</td>
+                              <td>{{$student->matricula}}</td>
+                              <td>{{$student->fullname}}</td>
+                              <td> </td>
                               <td width="10px">
-                                  <a class="btn btn-sm btn-primary" href="{{ url('/dashboard/rol/'.encrypt($role->id).'/edit') }}">Editar</a>
+                                  <a class="btn btn-sm btn-primary" href="{{ url('/dashboard/student/'.encrypt($student->id).'/edit') }}">Editar</a>
                               </td>
                               <td width="10px">
-                                  <form action="{{ url('/dashboard/rol/'.encrypt($role->id).'') }}" method="post">
+                                  <form action="{{ url('/dashboard/student/'.encrypt($student->id).'') }}" method="post">
                                       @method('DELETE')
                                       @csrf
                                       <button type="submit" class="btn btn-sm btn-danger">Eliminar</button>
@@ -76,4 +76,30 @@
   <!-- /.card-body -->
 </div>
 <!-- /.card -->
+
+<div class="modal fade" id="addstudent">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Crear Estudiante</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        {!! Form::open(['url' => 'dashboard/student']) !!}
+        <div class="modal-body">
+            @include('dashboard.student.partials.form')
+        </div>
+        <div class="modal-footer justify-content-between">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+            {!! Form::submit('Guardar', ['class' => 'btn btn-primary']) !!}
+        </div>
+        {!! Form::close() !!}
+      </div>
+      <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
 @endsection

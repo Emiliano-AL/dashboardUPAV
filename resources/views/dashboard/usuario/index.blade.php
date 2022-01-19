@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title_content')
-  <h1>Roles</h1>
+  <h1>Usuarios</h1>
 @endsection
 
 @section('content2')
@@ -14,7 +14,7 @@
           </strong>
       </div>
       <div class="col-md-6" align="right">
-          <a href="{{ url('/dashboard/rol/create') }}" class="btn btn-success btn-sm mb-2">Nuevo Rol</a>
+          <a href="{{ url('/dashboard/user/create') }}" class="btn btn-success btn-sm mb-2">Nuevo Usuario</a>
       </div>
     </div>
     @if(session('info'))
@@ -29,33 +29,37 @@
   <!-- /.card-header -->
   <div class="card-body">
       <div class="card">
-          @if ($roles->count())
+          @if ($usuarios->count())
           <div class="card-body">
               <table class="table table-striped" id="all">
                   <thead>
                       <tr>
                           <th>ID</th>
                           <th>Nombre</th>
+                          <th>Correo electrónico</th>
                           <th>Estatus</th>
+                          <th>Rol</th>
                           <th></th>
                           <th></th>
                       </tr>
                   </thead>
                   <tbody>
-                      @foreach ($roles as $role)
+                      @foreach ($usuarios as $usuario)
                           <tr>
-                              <td>{{$role->id}}</td>
-                              <td>{{$role->name}}</td>
-                              @if($role->status == true)
+                              <td>{{$usuario->id}}</td>
+                              <td>{{$usuario->name}}</td>
+                              <td>{{$usuario->email}}</td>
+                              @if($usuario->status == true)
                               <td>Activo</td>
                               @else
                               <td bgcolor="yellow">Inactivo</td>
                               @endif
+                              <td>{{$usuario->rol->name}}</td>
                               <td width="10px">
-                                  <a class="btn btn-sm btn-primary" href="{{ url('/dashboard/rol/'.encrypt($role->id).'/edit') }}">Editar</a>
+                                  <a class="btn btn-sm btn-primary" href="{{ url('/dashboard/user/'.encrypt($usuario->id).'/edit') }}">Editar</a>
                               </td>
                               <td width="10px">
-                                  <form action="{{ url('/dashboard/rol/'.encrypt($role->id).'') }}" method="post">
+                                  <form action="{{ url('/dashboard/user/'.encrypt($usuario->id).'') }}" method="post">
                                       @method('DELETE')
                                       @csrf
                                       <button type="submit" class="btn btn-sm btn-danger">Eliminar</button>

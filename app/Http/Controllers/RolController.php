@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Rol;
 
 class RolController extends Controller
 {
@@ -13,7 +14,8 @@ class RolController extends Controller
      */
     public function index()
     {
-        return view('dashboard.rol.index');
+        $roles = Rol::paginate(10);
+        return view('dashboard.rol.index', compact('roles'));
     }
 
     /**
@@ -23,7 +25,7 @@ class RolController extends Controller
      */
     public function create()
     {
-        //
+        return view('dashboard.rol.create');
     }
 
     /**
@@ -34,7 +36,12 @@ class RolController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|max:255|string|unique:rols',
+        ]);
+        $request['status'] = isset($request['status']) ? 1 : 0;
+        $role = Rol::create($request->all());
+        return redirect('dashboard/rol/'.encrypt($role->id).'/edit')->with('info', 'El rol se creo correctamente');
     }
 
     /**
@@ -56,7 +63,8 @@ class RolController extends Controller
      */
     public function edit($id)
     {
-        //
+        $rol = Rol::find(decrypt($id));
+        return view('dashboard.rol.edit', compact('rol'));
     }
 
     /**
@@ -68,7 +76,13 @@ class RolController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $role = decrypt($id);
+        $request->validate([
+            'name' => 'required|max:255|string|unique:rols,name,'.$role->id,
+        ]);
+        $request['status'] = isset($request['status']) ? 1 : 0;
+        $role->update($request->all());
+        return redirect('dashboard/rol/'.encrypt($role->id).'/edit')->with('info', 'El rol se editó correctamente');
     }
 
     /**
@@ -79,6 +93,8 @@ class RolController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $rol = Rol::find(decrypt($id));
+        $rol->delete();
+        return redirect('dashboard/rol')->with('info', 'El rol se eliminó correctamente');
     }
 }

@@ -17,7 +17,7 @@ class CreateStudentsTable extends Migration
             $table->id();
             $table->string('matricula')->unique();
             $table->string('fullname');
-            $table->string('namePicture')->unique();
+            $table->string('namePicture')->unique()->nullable();
             $table->timestamps();
         });
     }
