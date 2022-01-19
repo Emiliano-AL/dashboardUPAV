@@ -146,6 +146,16 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+        'name' => 'nombre',
+        'fullname' => 'nombre',
+        'status' => 'estatus',
+        'rol_id' => 'rol',
+        'password' => 'contraseña',
+        'namePicture ' => 'nombre de la fotografia',
+        'student_id' => 'estudiante',
+        'user_id' => 'usuario',
+        'validationResult' => 'validación',
+    ],
 
 ];
