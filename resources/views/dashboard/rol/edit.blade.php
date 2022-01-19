@@ -22,3 +22,9 @@
     </div>
 </div>
 @endsection
+
+@section('js2')
+  <script>
+    $( ".rol" ).addClass( "active" );
+  </script>
+@endsection

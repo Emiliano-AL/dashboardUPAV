@@ -22,3 +22,9 @@
     </div>
 </div>
 @endsection
+
+@section('js2')
+  <script>
+    $( ".student" ).addClass( "active" );
+  </script>
+@endsection
