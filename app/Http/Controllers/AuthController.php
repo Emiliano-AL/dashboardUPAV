@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Student;
+use App\Models\Validation;
 use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
@@ -21,6 +23,7 @@ class AuthController extends Controller
         if (! $token = Auth::attempt($credentials)) {
             return redirect('/')->with('error', 'Usuario o contraseña incorrecto.');
         }
+        ///FALTA PONER PARA EL USUARIO ESTA INACTIVO
         request()->session()->regenerate();
         return redirect('/dashboard/home');
     }
@@ -38,7 +41,11 @@ class AuthController extends Controller
 
     public function dashboard()
     {
-        return view('home');
+        $users = User::count();
+        $student = Student::count();
+        $validation = Validation::where('validationResult','RECONOCIDO')->count();
+        $validationno = Validation::where('validationResult','NO_RECONOCIDO')->count();
+        return view('home', compact('users','student','validation','validationno'));
     }
 
 }

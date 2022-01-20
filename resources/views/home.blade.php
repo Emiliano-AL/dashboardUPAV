@@ -11,12 +11,12 @@
     <!-- small box -->
     <div class="small-box bg-info">
       <div class="inner">
-        <h3>0</h3>
+        <h3>{{$users}}</h3>
 
         <p>Usuarios</p>
       </div>
       <div class="icon">
-        <i class="ion ion-bag"></i>
+        <i class="fas fa-fw fa-user"></i>
       </div>
       <a href="{{ url('/dashboard/user') }}" class="small-box-footer">Más Información<i class="fas fa-arrow-circle-right"></i></a>
     </div>
@@ -24,14 +24,14 @@
   <!-- ./col -->
   <div class="col-lg-3 col-6">
     <!-- small box -->
-    <div class="small-box bg-success">
+    <div class="small-box bg-primary">
       <div class="inner">
-        <h3>0</h3>
+        <h3>{{$student}}</h3>
 
         <p>Estudiantes</p>
       </div>
       <div class="icon">
-        <i class="ion ion-stats-bars"></i>
+        <i class="fas fa-fw fa-graduation-cap"></i>
       </div>
       <a href="{{ url('/dashboard/student') }}" class="small-box-footer">Más Información<i class="fas fa-arrow-circle-right"></i></a>
     </div>
@@ -39,14 +39,14 @@
   <!-- ./col -->
   <div class="col-lg-3 col-6">
     <!-- small box -->
-    <div class="small-box bg-warning">
+    <div class="small-box bg-success">
       <div class="inner">
-        <h3>0</h3>
+        <h3>{{$validation}}</h3>
 
         <p>Estudiantes Validados</p>
       </div>
       <div class="icon">
-        <i class="ion ion-person-add"></i>
+        <i class="fas fa-fw fa-check-double"></i>
       </div>
       <a href="{{ url('/dashboard/validation') }}" class="small-box-footer">Más Información<i class="fas fa-arrow-circle-right"></i></a>
     </div>
@@ -56,12 +56,12 @@
     <!-- small box -->
     <div class="small-box bg-danger">
       <div class="inner">
-        <h3>0</h3>
+        <h3>{{$validationno}}</h3>
 
         <p>Estudiantes Sin Validar</p>
       </div>
       <div class="icon">
-        <i class="ion ion-pie-graph"></i>
+        <i class="fas fa-times-circle"></i>
       </div>
       <a href="{{ url('/dashboard/validation') }}" class="small-box-footer">Más Información<i class="fas fa-arrow-circle-right"></i></a>
     </div>
@@ -83,10 +83,7 @@
         <div class="card-tools">
           <ul class="nav nav-pills ml-auto">
             <li class="nav-item">
-              <a class="nav-link active" href="#revenue-chart" data-toggle="tab">Área</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#sales-chart" data-toggle="tab">Pastel</a>
+              <a class="nav-link active" href="#revenue-chart" data-toggle="tab">Pastel</a>
             </li>
           </ul>
         </div>
@@ -96,11 +93,8 @@
           <!-- Morris chart - Sales -->
           <div class="chart tab-pane active" id="revenue-chart"
                style="position: relative; height: 300px;">
-              <canvas id="revenue-chart-canvas" height="300" style="height: 300px;"></canvas>
+              <canvas id="pieChart" height="300" style="height: 300px;"></canvas>
            </div>
-          <div class="chart tab-pane" id="sales-chart" style="position: relative; height: 300px;">
-            <canvas id="sales-chart-canvas" height="300" style="height: 300px;"></canvas>
-          </div>
         </div>
       </div><!-- /.card-body -->
     </div>
@@ -113,60 +107,39 @@
 
 @section('js2')
 <script>
-$(function () {
-  /* Chart.js Charts */
-  // Sales chart
-  var salesChartCanvas = document.getElementById('revenue-chart-canvas').getContext('2d')
-  // $('#revenue-chart').get(0).getContext('2d');
-
-  var salesChartData = {
-    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-    datasets: [
-      {
-        label: 'Digital Goods',
-        backgroundColor: 'rgba(60,141,188,0.9)',
-        borderColor: 'rgba(60,141,188,0.8)',
-        pointRadius: false,
-        pointColor: '#3b8bba',
-        pointStrokeColor: 'rgba(60,141,188,1)',
-        pointHighlightFill: '#fff',
-        pointHighlightStroke: 'rgba(60,141,188,1)',
-        data: [28, 48, 40, 19, 86, 27, 90]
-      },
-      {
-        label: 'Electronics',
-        backgroundColor: 'rgba(210, 214, 222, 1)',
-        borderColor: 'rgba(210, 214, 222, 1)',
-        pointRadius: false,
-        pointColor: 'rgba(210, 214, 222, 1)',
-        pointStrokeColor: '#c1c7d1',
-        pointHighlightFill: '#fff',
-        pointHighlightStroke: 'rgba(220,220,220,1)',
-        data: [65, 59, 80, 81, 56, 55, 40]
-      }
-    ]
-  }
-
-  var salesChartOptions = {
-    maintainAspectRatio: false,
-    responsive: true,
-    legend: {
-      display: false
-    },
-    scales: {
-      xAxes: [{
-        gridLines: {
-          display: false
+  $(function () {
+    //-------------
+    //- PIE CHART -
+    //-------------
+    // Get context with jQuery - using jQuery's .get() method.
+    var donutData        = {
+      labels: [
+          'Validados',
+          'Sin Validar',
+      ],
+      datasets: [
+        {
+          data:
+          @php
+           echo "[".$validation.",".$validationno."],";
+          @endphp
+          backgroundColor : ['#28A745','#DC3545',],
         }
-      }],
-      yAxes: [{
-        gridLines: {
-          display: false
-        }
-      }]
+      ]
     }
-  }
-
-});
+    var pieChartCanvas = $('#pieChart').get(0).getContext('2d')
+    var pieData        = donutData;
+    var pieOptions     = {
+      maintainAspectRatio : false,
+      responsive : true,
+    }
+    //Create pie or douhnut chart
+    // You can switch between pie and douhnut using the method below.
+    new Chart(pieChartCanvas, {
+      type: 'pie',
+      data: pieData,
+      options: pieOptions
+    })
+  });
 </script>
 @endsection
