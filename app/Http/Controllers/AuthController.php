@@ -20,12 +20,15 @@ class AuthController extends Controller
     {
         $credentials = request(['email', 'password']);
 
-        if (! $token = Auth::attempt($credentials)) {
-            return redirect('/')->with('error', 'Usuario o contraseña incorrecto.');
+        if (Auth::attempt($credentials)) {
+            if (Auth::user()->status === 0) {
+                auth()->logout();
+                return redirect('/')->with('error', 'Usuario inactivo.');
+            }
+            request()->session()->regenerate();
+            return redirect('/dashboard/home');
         }
-        ///FALTA PONER PARA EL USUARIO ESTA INACTIVO
-        request()->session()->regenerate();
-        return redirect('/dashboard/home');
+        return redirect('/')->with('error', 'Usuario o contraseña incorrecto.');
     }
 
     /**
