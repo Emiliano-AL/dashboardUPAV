@@ -39,6 +39,7 @@
                           <th>Nombre</th>
                           <th>Validado Por</th>
                           <th>Estatus</th>
+                          <th>Fecha</th>
                           <!--<th class="notexport"></th>-->
                       </tr>
                   </thead>
@@ -49,7 +50,8 @@
                               <td>{{$student->matricula}}</td>
                               <td>{{$student->students->fullname}}</td>
                               <td>{{$student->users->name}}</td>
-                              <td>RECONOCIDO</td>
+                              <td>{{$student->validationResult}}</td>
+                              <td>{{date('d-m-Y', strtotime($student->created_at))}}</td>
                               <!--<td>
                                 <button type="button" class="btn btn-success btn-sm mb-2" data-toggle="modal" data-target="#validatestudent">
                                     Validar Estudiante

@@ -340,7 +340,11 @@ return [
                     'asset' => false,
                     'location' => '//cdn.datatables.net/buttons/2.1.0/js/buttons.colVis.min.js',
                 ],
-                
+                [
+                    'type' => 'js',
+                    'asset' => false,
+                    'location' => '//cdn.jsdelivr.net/npm/jquery.scrollto@2.1.3/jquery.scrollTo.min.js',
+                ],
                 ////////
                 [
                     'type' => 'css',

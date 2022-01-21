@@ -21,7 +21,7 @@ class AuthController extends Controller
         $credentials = request(['email', 'password']);
 
         if (Auth::attempt($credentials)) {
-            if (Auth::user()->status === 0 || Auth::user()->rol_id != 1) {
+            if (Auth::user()->status === 0 || strpos(Auth::user()->rols, 'Administrador') === false) {
                 auth()->logout();
                 return redirect('/')->with('error', 'Error al acceder, consulta al administrador.');
             }

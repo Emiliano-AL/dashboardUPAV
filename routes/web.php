@@ -45,6 +45,9 @@ Route::group([
     //ADMINISTRATION
     Route::resource('rol', RolController::class);
     Route::resource('user', UserController::class);
+    Route::get('userexcel', function () {return view('dashboard.usuario.excel');});
+    Route::post('userexcelupload', [UserController::class, 'excelupload']);
+    Route::post('userexceluploadadd', [UserController::class, 'exceluploadadd']); 
     Route::resource('student', StudentController::class);
     Route::resource('validation', ValidationController::class);
 

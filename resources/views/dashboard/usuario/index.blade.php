@@ -8,12 +8,15 @@
 <div class="card">
   <div class="card-header">
     <div class="row">
-      <div class="col-md-6" align="left">
+      <div class="col-md-4" align="left">
           <strong>
               Lista
           </strong>
       </div>
-      <div class="col-md-6" align="right">
+      <div class="col-md-4" align="center">
+        <a href="{{ url('/dashboard/userexcel') }}" class="btn btn-info btn-sm mb-2">Cargar Usuarios <i class="fas fa-file-excel"></i></a>
+      </div>
+      <div class="col-md-4" align="right">
           <a href="{{ url('/dashboard/user/create') }}" class="btn btn-success btn-sm mb-2">Nuevo Usuario</a>
       </div>
     </div>
