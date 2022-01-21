@@ -72,7 +72,7 @@
                                 @else
                                   <td bgcolor="yellow">Inhabilitado</td>
                                 @endif
-                                <td>{{$usuario->rol->name}}</td>
+                                <td>{{$usuario->rols}}</td>
                                 <td width="10px">
                                     <a class="btn btn-sm btn-primary" href="{{ url('/dashboard/user/'.encrypt($usuario->id).'/edit') }}">Editar</a>
                                 </td>
@@ -116,7 +116,7 @@
                                 @else
                                   <td bgcolor="yellow">Inhabilitado</td>
                                 @endif
-                                <td>{{$usuariono->rol->name}}</td>
+                                <td>{{$usuariono->rols}}</td>
                                 <td width="10px">
                                     <a class="btn btn-sm btn-primary" href="{{ url('/dashboard/user/'.encrypt($usuariono->id).'/edit') }}">Editar</a>
                                 </td>

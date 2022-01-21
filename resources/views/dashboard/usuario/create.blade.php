@@ -26,7 +26,7 @@
             return "Buscando..";
           }
         },
-        placeholder: "Elija una opción",
+        placeholder: "Elije una opción",
     }).width("100%");
   </script>
 @endsection

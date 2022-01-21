@@ -28,8 +28,8 @@ class UserController extends Controller
      */
     public function create()
     {
-        $rolquery = Rol::select('name','id')->where('status', true);
-        $roles = $rolquery->pluck('name', 'id')->toArray();
+        $rolquery = Rol::select('name', 'name')->where('status', true);
+        $roles = $rolquery->pluck('name', 'name')->toArray();
         return view('dashboard.usuario.create', compact('roles'));
     }
 
@@ -45,10 +45,11 @@ class UserController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
-            'rol_id' => 'required|numeric|digits_between:1,20',
+            'rols' => 'required',
         ]);
         $request['status'] = isset($request['status']) ? 1 : 0;
         $request['password'] = bcrypt($request['password']);
+        $request['rols'] = implode(', ',$request['rols']);
         $usuario = User::create($request->all());
         return redirect('dashboard/user/'.encrypt($usuario->id).'/edit')->with('info', 'El usuario se creo correctamente');
     }
@@ -76,8 +77,9 @@ class UserController extends Controller
     public function edit($id)
     {
         $user = User::find(decrypt($id));
-        $rolquery = Rol::select('name','id')->where('status', true);
-        $roles = $rolquery->pluck('name', 'id')->toArray();
+        $rolquery = Rol::select('name', 'name')->where('status', true);
+        $roles = $rolquery->pluck('name', 'name')->toArray();
+        $user->rols = explode(", ", $user->rols);
         return view('dashboard.usuario.edit', compact('user', 'roles'));
     }
 
@@ -95,7 +97,7 @@ class UserController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email,'.$usuario->id,
             'password' => 'nullable',
-            'rol_id' => 'required|numeric|digits_between:1,20',
+            'rols' => 'required',
         ]);
         if(isset($request->password)){
             $request->validate([
@@ -109,7 +111,7 @@ class UserController extends Controller
         if(isset($request->password)){
             $request['password'] = bcrypt($request['password']);
         }
-        $inf->rol_id = $request->rol_id;
+        $inf->rols = implode(', ',$request['rols']);
         $inf->status = $request['status'];
         $inf->save();
         return redirect('dashboard/user/'.encrypt($usuario->id).'/edit')->with('info', 'El usuario se editó correctamente');
