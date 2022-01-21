@@ -34,13 +34,8 @@
 </div>
 
 <div class="form-group">
-    {!! Form::label('rol_id', 'Rol') !!}
-    {!! Form::select('rol_id', $roles, null, ['class' => 'form-control', 'placeholder' => 'Selecciona un rol', 'required']) !!}
-    @error('rol_id')
-        <small>
-            <strong>{{ $message }}</strong>
-        </small>
-    @enderror
+    {!! Form::label('rol_id[]', 'Rol') !!}
+    {!! Form::select('rol_id[]',$roles,  null, ['class' => 'form-control rol_id', 'style' => 'width: 100%', 'required', 'multiple']) !!}
 </div>
 
 <div class="form-group">

@@ -37,52 +37,113 @@
   <!-- /.card-header -->
   <div class="card-body">
       <div class="card">
+            <ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
+              <li class="nav-item">
+                <a class="nav-link active" id="custom-tabs-one-home-tab" data-toggle="pill" href="#custom-tabs-one-home" role="tab" aria-controls="custom-tabs-one-home" aria-selected="true">Usuarios Habilitados</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" id="custom-tabs-one-profile-tab" data-toggle="pill" href="#custom-tabs-one-profile" role="tab" aria-controls="custom-tabs-one-profile" aria-selected="false">Usuarios Inhabilitados</a>
+              </li>
+            </ul>
           @if ($usuarios->count())
-          <div class="card-body table-responsive">
-              <table class="table table-striped" id="all">
-                  <thead>
-                      <tr>
-                          <th>ID</th>
-                          <th>Nombre</th>
-                          <th>Correo electrónico</th>
-                          <th>Estatus</th>
-                          <th>Rol</th>
-                          <th></th>
-                          <th></th>
-                      </tr>
-                  </thead>
-                  <tbody>
-                      @foreach ($usuarios as $usuario)
-                          <tr>
-                              <td>{{$usuario->id}}</td>
-                              <td>{{$usuario->name}}</td>
-                              <td>{{$usuario->email}}</td>
-                              @if($usuario->status == true)
-                              <td>Activo</td>
-                              @else
-                              <td bgcolor="yellow">Inactivo</td>
-                              @endif
-                              <td>{{$usuario->rol->name}}</td>
-                              <td width="10px">
-                                  <a class="btn btn-sm btn-primary" href="{{ url('/dashboard/user/'.encrypt($usuario->id).'/edit') }}">Editar</a>
-                              </td>
-                              <td width="10px">
-                                  <form action="{{ url('/dashboard/user/'.encrypt($usuario->id).'') }}" method="post">
+          <div class="card-body">
+              <div class="tab-content" id="custom-tabs-one-tabContent">
+                <div class="tab-pane fade show active table-responsive" id="custom-tabs-one-home" role="tabpanel" aria-labelledby="custom-tabs-one-home-tab">
+                  <table class="table table-striped" id="all">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Correo electrónico</th>
+                            <th>Estatus</th>
+                            <th>Rol</th>
+                            <th class="notexport"></th>
+                            <th class="notexport"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($usuarios as $usuario)
+                            <tr>
+                                <td>{{$usuario->id}}</td>
+                                <td>{{$usuario->name}}</td>
+                                <td>{{$usuario->email}}</td>
+                                @if($usuario->status == true)
+                                  <td>Habilitado</td>
+                                @else
+                                  <td bgcolor="yellow">Inhabilitado</td>
+                                @endif
+                                <td>{{$usuario->rol->name}}</td>
+                                <td width="10px">
+                                    <a class="btn btn-sm btn-primary" href="{{ url('/dashboard/user/'.encrypt($usuario->id).'/edit') }}">Editar</a>
+                                </td>
+                                <td width="10px">
+                                  @if($usuario->status == true)
+                                    <form action="{{ url('/dashboard/user/'.encrypt($usuario->id).'') }}" method="post">
                                       @method('DELETE')
                                       @csrf
-                                      <button type="submit" class="btn btn-sm btn-danger">Eliminar</button>
-                                  </form>
-                              </td>
-                          </tr>
-                      @endforeach
-                  </tbody>
-              </table>
+                                      <button type="submit" class="btn btn-sm btn-danger">Inhabilitar</button>
+                                    </form>
+                                  @else
+                                    <a href="{{ url('/dashboard/user/'.encrypt($usuario->id).'') }}" class="btn btn-sm btn-success">Habilitar</a>
+                                  @endif
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                  </table>
+                </div>
+                <div class="tab-pane fade table-responsive" id="custom-tabs-one-profile" role="tabpanel" aria-labelledby="custom-tabs-one-profile-tab">
+                  <table class="table table-striped" id="all2">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Correo electrónico</th>
+                            <th>Estatus</th>
+                            <th>Rol</th>
+                            <th class="notexport"></th>
+                            <th class="notexport"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($usuariosno as $usuariono)
+                            <tr>
+                                <td>{{$usuariono->id}}</td>
+                                <td>{{$usuariono->name}}</td>
+                                <td>{{$usuariono->email}}</td>
+                                @if($usuariono->status == true)
+                                  <td>Habilitado</td>
+                                @else
+                                  <td bgcolor="yellow">Inhabilitado</td>
+                                @endif
+                                <td>{{$usuariono->rol->name}}</td>
+                                <td width="10px">
+                                    <a class="btn btn-sm btn-primary" href="{{ url('/dashboard/user/'.encrypt($usuariono->id).'/edit') }}">Editar</a>
+                                </td>
+                                <td width="10px">
+                                  @if($usuariono->status == true)
+                                    <form action="{{ url('/dashboard/user/'.encrypt($usuariono->id).'') }}" method="post">
+                                      @method('DELETE')
+                                      @csrf
+                                      <button type="submit" class="btn btn-sm btn-danger">Inhabilitar</button>
+                                    </form>
+                                  @else
+                                    <a href="{{ url('/dashboard/user/'.encrypt($usuariono->id).'') }}" class="btn btn-sm btn-success">Habilitar</a>
+                                  @endif
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                  </table>
+                </div>
+              </div>
           </div>
           @else
           <div class="card-body">
               <strong>No hay registros</strong>
           </div>
           @endif
+
       </div>
   </div>
   <!-- /.card-body -->

@@ -17,13 +17,25 @@
 @stop
 
 @section('js')
+    
     @yield('js2')
     <script>
         $(function () {
-            $('#all').DataTable({
-            "responsive": true, "lengthChange": true, "autoWidth": true,
+            $('#all, #all2').DataTable({
+            dom: 'lBfrtip',
+            "responsive": true, 
+            "lengthChange": true, 
+            "autoWidth": true,
+            buttons: [{
+                extend: 'excel',
+                exportOptions: {columns: ':not(.notexport)'}
+            },
+            {
+                extend: 'colvis',
+                exportOptions: {columns: ':not(.notexport)'}
+            }],
             "language": {
-                "url": "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
+                "url": "//cdn.datatables.net/plug-ins/1.11.3/i18n/es_es.json"
             },
             });
         });

@@ -26,5 +26,16 @@
 @section('js2')
   <script>
     $( ".user" ).addClass( "active" );
+    $('.rol_id').select2({
+        language: {
+          noResults: function() {
+            return "No hay resultados";
+          },
+          searching: function() {
+            return "Buscando..";
+          }
+        },
+        placeholder: "Elija una opción",
+    }).width("100%");
   </script>
 @endsection

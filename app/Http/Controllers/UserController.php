@@ -16,8 +16,9 @@ class UserController extends Controller
      */
     public function index()
     {
-        $usuarios = User::paginate(10);
-        return view('dashboard.usuario.index', compact('usuarios'));
+        $usuarios = User::where('status', true)->paginate(100);
+        $usuariosno = User::where('status', false)->paginate(100);
+        return view('dashboard.usuario.index', compact('usuarios','usuariosno'));
     }
 
     /**
@@ -60,7 +61,10 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        //
+        $usuario = User::find(decrypt($id));
+        $usuario->status = true;
+        $usuario->save();
+        return redirect('dashboard/user')->with('info', 'El usuario se habilitó correctamente');
     }
 
     /**
@@ -119,12 +123,9 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        $validation = Validation::where('user_id', decrypt($id))->count();
-        if ($validation >= 1) {
-            return redirect()->back()->with('error', 'El usuario ha validado estudiantes');
-        }
         $usuario = User::find(decrypt($id));
-        $usuario->delete();
-        return redirect('dashboard/user')->with('info', 'El usuario se eliminó correctamente');
+        $usuario->status = false;
+        $usuario->save();
+        return redirect('dashboard/user')->with('info', 'El usuario se ha inhabilitado correctamente');
     }
 }

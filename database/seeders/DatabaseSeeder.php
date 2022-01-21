@@ -14,11 +14,26 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        DB::table('rols')->insert([[
+            'name'  => 'Administrador',
+            'status'     => true,
+        ],
+        [
+            'name'  => 'Capturista',
+            'status'     => true,
+        ],
+        [
+            'name'  => 'Validador',
+            'status'     => true,
+        ]]
+        );
+
         DB::table('users')->insert([
             'rol_id'  => '1',
             'name'  => 'Jhon Smith',
             'email'     => 'admin@gmail.com',
             'password'  => bcrypt('123456'),
         ]);
+
     }
 }

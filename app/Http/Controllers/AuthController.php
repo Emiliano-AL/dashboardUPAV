@@ -21,14 +21,14 @@ class AuthController extends Controller
         $credentials = request(['email', 'password']);
 
         if (Auth::attempt($credentials)) {
-            if (Auth::user()->status === 0) {
+            if (Auth::user()->status === 0 || Auth::user()->rol_id != 1) {
                 auth()->logout();
-                return redirect('/')->with('error', 'Usuario inactivo.');
+                return redirect('/')->with('error', 'Error al acceder, consulta al administrador.');
             }
             request()->session()->regenerate();
             return redirect('/dashboard/home');
         }
-        return redirect('/')->with('error', 'Usuario o contraseña incorrecto.');
+        return redirect('/')->with('error', 'Correo electrónico o contraseña incorrecto.');
     }
 
     /**

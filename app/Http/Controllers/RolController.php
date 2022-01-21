@@ -53,7 +53,10 @@ class RolController extends Controller
      */
     public function show($id)
     {
-        //
+        $rol = Rol::find(decrypt($id));
+        $rol->status = true;
+        $rol->save();
+        return redirect('dashboard/rol')->with('info', 'El rol se habilitó correctamente');
     }
 
     /**
@@ -94,12 +97,9 @@ class RolController extends Controller
      */
     public function destroy($id)
     {
-        $user = User::where('rol_id', decrypt($id))->count();
-        if ($user >= 1) {
-            return redirect()->back()->with('error', 'Debes eliminar primero los usuarios con este rol');
-        }
         $rol = Rol::find(decrypt($id));
-        $rol->user->delete();
-        return redirect('dashboard/rol')->with('info', 'El rol se eliminó correctamente');
+        $rol->status = false;
+        $rol->save();
+        return redirect('dashboard/rol')->with('info', 'El rol se ha inhabilitado correctamente');
     }
 }

@@ -14,3 +14,19 @@
     </div>
 </div>
 @endsection
+
+@section('js2')
+  <script>
+    $('.rol_id').select2({
+        language: {
+          noResults: function() {
+            return "No hay resultados";
+          },
+          searching: function() {
+            return "Buscando..";
+          }
+        },
+        placeholder: "Elija una opción",
+    }).width("100%");
+  </script>
+@endsection

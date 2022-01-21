@@ -13,9 +13,9 @@
               Lista
           </strong>
       </div>
-      <div class="col-md-6" align="right">
+      <!-- <div class="col-md-6" align="right">
           <a href="{{ url('/dashboard/rol/create') }}" class="btn btn-success btn-sm mb-2">Nuevo Rol</a>
-      </div>
+      </div>-->
     </div>
     @if(session('info'))
       <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -45,8 +45,10 @@
                           <th>ID</th>
                           <th>Nombre</th>
                           <th>Estatus</th>
-                          <th></th>
-                          <th></th>
+                          <!--
+                            <th class="notexport"></th>
+                            <th class="notexport"></th>
+                          -->
                       </tr>
                   </thead>
                   <tbody>
@@ -55,20 +57,24 @@
                               <td>{{$role->id}}</td>
                               <td>{{$role->name}}</td>
                               @if($role->status == true)
-                              <td>Activo</td>
+                              <td>Habilitado</td>
                               @else
-                              <td bgcolor="yellow">Inactivo</td>
+                              <td bgcolor="yellow">Inhabilitado</td>
                               @endif
-                              <td width="10px">
+                              <!--<td width="10px">
                                   <a class="btn btn-sm btn-primary" href="{{ url('/dashboard/rol/'.encrypt($role->id).'/edit') }}">Editar</a>
                               </td>
                               <td width="10px">
+                                  @if($role->status == true)
                                   <form action="{{ url('/dashboard/rol/'.encrypt($role->id).'') }}" method="post">
-                                      @method('DELETE')
-                                      @csrf
-                                      <button type="submit" class="btn btn-sm btn-danger">Eliminar</button>
+                                    @method('DELETE')
+                                    @csrf
+                                    <button type="submit" class="btn btn-sm btn-danger">Inhabilitar</button>
                                   </form>
-                              </td>
+                                  @else
+                                  <a href="{{ url('/dashboard/rol/'.encrypt($role->id).'') }}" class="btn btn-sm btn-success">Habilitar</a>
+                                  @endif
+                              </td>-->
                           </tr>
                       @endforeach
                   </tbody>

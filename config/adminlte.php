@@ -258,7 +258,7 @@ return [
             'active' => ['dashboard/student', 'dashboard/student/create'],
         ],
         [
-            'text' => 'Validar Estudiantes',
+            'text' => 'Validación de Estudiantes',
             'url'  => 'dashboard/validation',
             'icon' => 'fas fa-fw fa-check-double',
             'classes'  => 'validation',
@@ -314,11 +314,45 @@ return [
                     'asset' => false,
                     'location' => '//cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js',
                 ],
+                ////////
+                [
+                    'type' => 'js',
+                    'asset' => false,
+                    'location' => '//cdn.datatables.net/buttons/2.1.0/js/dataTables.buttons.min.js',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => false,
+                    'location' => '//cdn.datatables.net/buttons/2.1.0/js/buttons.bootstrap4.min.js',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => false,
+                    'location' => '//cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => false,
+                    'location' => '//cdn.datatables.net/buttons/2.1.0/js/buttons.html5.min.js',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => false,
+                    'location' => '//cdn.datatables.net/buttons/2.1.0/js/buttons.colVis.min.js',
+                ],
+                
+                ////////
                 [
                     'type' => 'css',
                     'asset' => false,
                     'location' => '//cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css',
                 ],
+                [
+                    'type' => 'css',
+                    'asset' => false,
+                    'location' => '//cdn.datatables.net/buttons/2.1.0/css/buttons.bootstrap4.min.css',
+                ],
+                
             ],
         ],
         'Select2' => [

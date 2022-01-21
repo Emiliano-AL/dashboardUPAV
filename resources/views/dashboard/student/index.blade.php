@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title_content')
-  <h1>Estudiantes</h1>
+  <h1>Estudiantes Registrados</h1>
 @endsection
 
 @section('content2')
@@ -13,11 +13,11 @@
               Lista
           </strong>
       </div>
-      <div class="col-md-6" align="right">
+      <!--<div class="col-md-6" align="right">
         <button type="button" class="btn btn-success btn-sm mb-2" data-toggle="modal" data-target="#addstudent">
             Nuevo Estudiante
         </button>
-      </div>
+      </div>-->
     </div>
     @if(session('info'))
       <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -39,9 +39,10 @@
                           <th>ID</th>
                           <th>Matrícula</th>
                           <th>Nombre</th>
-                          <th>Fotografia</th>
-                          <th></th>
-                          <th></th>
+                          <!--
+                          <th class="notexport"></th>
+                          <th class="notexport"></th>
+                          -->
                       </tr>
                   </thead>
                   <tbody>
@@ -50,8 +51,7 @@
                               <td>{{$student->id}}</td>
                               <td>{{$student->matricula}}</td>
                               <td>{{$student->fullname}}</td>
-                              <td> </td>
-                              <td width="10px">
+                              <!--<td width="10px">
                                   <a class="btn btn-sm btn-primary" href="{{ url('/dashboard/student/'.encrypt($student->id).'/edit') }}">Editar</a>
                               </td>
                               <td width="10px">
@@ -60,7 +60,7 @@
                                       @csrf
                                       <button type="submit" class="btn btn-sm btn-danger">Eliminar</button>
                                   </form>
-                              </td>
+                              </td>-->
                           </tr>
                       @endforeach
                   </tbody>

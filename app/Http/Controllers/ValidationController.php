@@ -16,7 +16,7 @@ class ValidationController extends Controller
      */
     public function index()
     {
-        $students = Student::paginate(10);
+        $students = Validation::paginate(100);
         return view('dashboard.validation.index', compact('students'));
     }
 

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title_content')
-  <h1> Validar Estudiantes</h1>
+  <h1> Validación de Estudiantes</h1>
 @endsection
 
 @section('content2')
@@ -37,8 +37,9 @@
                           <th>ID</th>
                           <th>Matrícula</th>
                           <th>Nombre</th>
+                          <th>Validado Por</th>
                           <th>Estatus</th>
-                          <th></th>
+                          <!--<th class="notexport"></th>-->
                       </tr>
                   </thead>
                   <tbody>
@@ -46,13 +47,14 @@
                           <tr>
                               <td>{{$student->id}}</td>
                               <td>{{$student->matricula}}</td>
-                              <td>{{$student->fullname}}</td>
+                              <td>{{$student->students->fullname}}</td>
+                              <td>{{$student->users->name}}</td>
                               <td>RECONOCIDO</td>
-                              <td>
+                              <!--<td>
                                 <button type="button" class="btn btn-success btn-sm mb-2" data-toggle="modal" data-target="#validatestudent">
                                     Validar Estudiante
                                 </button>
-                              </td>
+                              </td>-->
                           </tr>
                       @endforeach
                   </tbody>
