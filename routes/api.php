@@ -2,6 +2,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\StudenController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,8 +16,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::group([
+    'prefix' => 'auth'
+], function () {
+    Route::post('login', [AuthController::class, 'login']);
+
+    Route::group([
+      'middleware' => 'auth:api'
+    ], function() {
+        Route::get('logout', [AuthController::class, 'logout']);
+        Route::get('user', [AuthController::class, 'user']);
+    });
 });
 
 
@@ -26,3 +37,11 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 // POST: ResultadoValidacion { resultadoValidacion: , idValidando:number, matricula: string }
 // {  error: false, data: { mensaje: ok} }
 // POST: Listado de las validaciones,
+Route::group([
+    'middleware' => 'auth:api',
+    'prefix' => 'functions'
+], function () {
+        ///FUNCTIONS API
+        Route::post('newstudent', [StudenController::class, 'newstudent']);
+        Route::post('newvalidation', [StudenController::class, 'newvalidation']);
+});

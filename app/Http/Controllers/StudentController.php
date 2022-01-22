@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use App\Models\Student;
-use App\Http\Requests\StoreStudentRequest;
-use App\Http\Requests\UpdateStudentRequest;
 
 class StudentController extends Controller
 {
@@ -15,7 +14,8 @@ class StudentController extends Controller
      */
     public function index()
     {
-        //
+        $students = Student::paginate(100);
+        return view('dashboard.student.index', compact('students'));
     }
 
     /**
@@ -25,27 +25,32 @@ class StudentController extends Controller
      */
     public function create()
     {
-        //
+        return redirect()->back();   
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StoreStudentRequest  $request
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreStudentRequest $request)
+    public function store(Request $request)
     {
-        //
+        $request->validate([
+            'fullname' => 'required|max:255|string|unique:students,fullname',
+            'matricula' => 'required|max:255|string|unique:students,matricula',
+        ]);
+        $student = Student::create($request->all());
+        return redirect('dashboard/student')->with('info', 'El estudiante se creo correctamente');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Student  $student
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Student $student)
+    public function show($id)
     {
         //
     }
@@ -53,34 +58,44 @@ class StudentController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Student  $student
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Student $student)
+    public function edit($id)
     {
-        //
+        $student = Student::find(decrypt($id));
+        return view('dashboard.student.edit', compact('student'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\UpdateStudentRequest  $request
-     * @param  \App\Models\Student  $student
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateStudentRequest $request, Student $student)
+    public function update(Request $request, $id)
     {
-        //
+        $student = decrypt($id);
+        $request->validate([
+            'fullname' => 'required|max:255|string|unique:students,fullname,'.$student->id,
+            'matricula' => 'required|max:255|string|unique:students,matricula,'.$student->id,
+        ]);
+        $student->update($request->all());
+        return redirect('dashboard/student/'.encrypt($student->id).'/edit')->with('info', 'El estudiante se editó correctamente');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Student  $student
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Student $student)
+    public function destroy($id)
     {
-        //
+        $student = Student::find(decrypt($id));
+        $student->validations()->delete();
+        $student->delete();
+        return redirect('dashboard/student')->with('info', 'El estudiante se eliminó correctamente');
     }
 }
