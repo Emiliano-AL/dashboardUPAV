@@ -28,8 +28,8 @@ class AuthController extends Controller
         if (!Auth::attempt($credentials))
             return response()->json([
                 'error' => true,
-                'data' => ['message' => 'Unauthorized']
-            ]);
+                'data' => ['message' => 'Unauthorized1']
+            ], 404);
         if($request->user()->status === 0)
             return response()->json([
                 'error' => true,
