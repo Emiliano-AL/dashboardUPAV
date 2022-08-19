@@ -62,4 +62,48 @@ class StudenController extends Controller
         ]);
     }
 
+    /**
+     * Get By Matrícula
+     */
+    public function bymatricula(Request $request)
+    {
+        try{
+            $request->validate([
+                'matricula' => 'required|max:255|string|exists:students,matricula',
+            ]);
+        }catch(\Exception $e){
+            return $e->errors();
+        }
+
+        $info = Student::where('matricula', $request->matricula)->get();
+
+        return response()->json([
+            'error' => false,
+            'data' => $info
+        ]);
+    }
+
+    /**
+     * Syncronize photo
+     */
+    public function syncronizephoto(Request $request)
+    {
+        try{
+            $request->validate([
+                'matricula' => 'required|max:255|string|exists:students,matricula',
+                'namePicture' => 'required|max:255|string|unique:students,namePicture',
+            ]);
+        }catch(\Exception $e){
+            return $e->errors();
+        }
+
+        Student::where('matricula', $request->matricula)->update(['namePicture' => $request->namePicture]);
+
+        return response()->json([
+            'error' => false,
+            'data' => ['message' => 'ok']
+        ]);
+    }
+
+
 }
