@@ -39,12 +39,12 @@ Route::group([
 // POST: Listado de las validaciones,
 Route::group([
     'middleware' => 'auth:api',
-    'prefix' => 'functions'
+    'prefix' => 'student'
 ], function () {
         ///FUNCTIONS API
-        Route::post('newstudent', [StudenController::class, 'newstudent']);
-        Route::post('newvalidation', [StudenController::class, 'newvalidation']);
+        Route::post('create', [StudenController::class, 'create']);
+        Route::post('validation', [StudenController::class, 'validation']);
 
-        Route::post('syncronizephoto', [StudenController::class, 'syncronizephoto']);
-        Route::get('bymatricula', [StudenController::class, 'bymatricula']);
+        Route::post('sync-picture', [StudenController::class, 'syncronizePhoto']);
+        Route::get('by-matricula/{matricula}', [StudenController::class, 'getStudent']);
 });

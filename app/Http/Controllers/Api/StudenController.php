@@ -12,7 +12,7 @@ class StudenController extends Controller
     /**
      * Registro de estudiante
      */
-    public function newstudent(Request $request)
+    public function create(Request $request)
     {
         try{
             $request->validate([
@@ -37,9 +37,9 @@ class StudenController extends Controller
     }
 
     /**
-     * Registro de estudiante
+     * Registro de validacion de estudiante
      */
-    public function newvalidation(Request $request)
+    public function validation(Request $request)
     {
         try{
             $request->validate([
@@ -65,17 +65,18 @@ class StudenController extends Controller
     /**
      * Get By Matrícula
      */
-    public function bymatricula(Request $request)
+    public function getStudent(Request $request, $matricula)
     {
-        try{
-            $request->validate([
-                'matricula' => 'required|max:255|string|exists:students,matricula',
-            ]);
-        }catch(\Exception $e){
-            return $e->errors();
-        }
+        // dd($matricula);
+        // try{
+        //     $request->validate([
+        //         'matricula' => 'required|max:255|string|exists:students,matricula',
+        //     ]);
+        // }catch(\Exception $e){
+        //     return $e->errors();
+        // }
 
-        $info = Student::where('matricula', $request->matricula)->get();
+        $info = Student::where('matricula', $matricula)->get();
 
         return response()->json([
             'error' => false,
@@ -86,7 +87,7 @@ class StudenController extends Controller
     /**
      * Syncronize photo
      */
-    public function syncronizephoto(Request $request)
+    public function syncronizePhoto(Request $request)
     {
         try{
             $request->validate([
