@@ -44,4 +44,7 @@ Route::group([
         ///FUNCTIONS API
         Route::post('newstudent', [StudenController::class, 'newstudent']);
         Route::post('newvalidation', [StudenController::class, 'newvalidation']);
+
+        Route::post('syncronizephoto', [StudenController::class, 'syncronizephoto']);
+        Route::get('bymatricula', [StudenController::class, 'bymatricula']);
 });
