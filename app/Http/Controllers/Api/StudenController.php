@@ -21,7 +21,10 @@ class StudenController extends Controller
                 'namePicture' => 'required|max:255|string|unique:students,namePicture',
             ]);
         }catch(\Exception $e){
-            return $e->errors();
+            return response()->json([
+                'error' => true,
+                'data' => $e->errors()
+            ]);
         }
 
         Student::create([
@@ -67,21 +70,19 @@ class StudenController extends Controller
      */
     public function getStudent(Request $request, $matricula)
     {
-        // dd($matricula);
-        // try{
-        //     $request->validate([
-        //         'matricula' => 'required|max:255|string|exists:students,matricula',
-        //     ]);
-        // }catch(\Exception $e){
-        //     return $e->errors();
-        // }
-
-        $info = Student::where('matricula', $matricula)->get();
-
-        return response()->json([
-            'error' => false,
-            'data' => $info
-        ]);
+        $info = Student::where('matricula', $matricula)->first();
+        // dd($info);
+        if(!is_null($info)){
+            return response()->json([
+                'error' => false,
+                'data' => $info
+            ]);
+        }else {
+            return response()->json([
+                'error' => true,
+                'data' => []
+            ]);
+        }
     }
 
     /**
