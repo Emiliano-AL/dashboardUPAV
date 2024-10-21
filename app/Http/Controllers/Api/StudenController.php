@@ -6,9 +6,18 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Student;
 use App\Models\Validation;
+use Illuminate\Support\Facades\Storage;
 
 class StudenController extends Controller
 {
+    public function getPhotoStudent($filename){
+        $path = 'uploaded/students/' . $filename;
+        if (Storage::disk('public')->exists($path)) {
+            return response()->file(storage_path('app/public/' . $path));
+        }
+        return response()->json(['error' => 'Image not found'], 404);
+    }
+
     /**
      * Registro de estudiante
      */

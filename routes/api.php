@@ -44,6 +44,7 @@ Route::group([
     ///FUNCTIONS API
     Route::post('create', [StudenController::class, 'create']);
     Route::post('validation', [StudenController::class, 'validation']);
+    Route::get('photo/{filename}', [StudenController::class, 'getPhotoStudent']);
 
     Route::post('sync-picture', [StudenController::class, 'syncronizePhoto']);
     Route::get('by-matricula/{matricula}', [StudenController::class, 'getStudent']);
