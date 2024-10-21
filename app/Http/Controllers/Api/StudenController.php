@@ -10,6 +10,19 @@ use Illuminate\Support\Facades\Storage;
 
 class StudenController extends Controller
 {
+    public function getAllStudentsValidation()
+    {
+        $students = Validation::with(['students', 'users'])->orderBy('created_at', 'desc')->take(50)->get();
+        return response()->json([
+            'error' => false,
+            'data' => $students
+        ]);
+    }
+
+    /**
+     * Obtener fotografía para realizar el reconocimiento
+     */
+
     public function getPhotoStudent($filename){
         $path = 'uploaded/students/' . $filename;
         if (Storage::disk('public')->exists($path)) {
