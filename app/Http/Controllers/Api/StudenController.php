@@ -18,7 +18,7 @@ class StudenController extends Controller
             $request->validate([
                 'matricula' => 'required|max:255|string|unique:students,matricula',
                 'fullname' => 'required|max:255|string|unique:students,fullname',
-                'namePicture' => 'required|max:255|string|unique:students,namePicture',
+                'picture' => 'required|image|max:2048',
             ]);
         }catch(\Exception $e){
             return response()->json([
@@ -27,10 +27,16 @@ class StudenController extends Controller
             ]);
         }
 
+        $nombreDeAlmacenaje = $request->matricula.'.';
+        $tipo = $request->file('picture')->getClientOriginalExtension();
+        $nombreDeAlmacenaje .= $tipo;
+        $request->file('picture')->storeAs('/', $nombreDeAlmacenaje, 'upload_students');
+
         Student::create([
             'matricula' => $request->matricula,
             'fullname' => $request->fullname,
-            'namePicture' => $request->namePicture,
+            // 'namePicture' => $request->namePicture,
+            'namePicture' => $nombreDeAlmacenaje,
         ]);
 
         return response()->json([
