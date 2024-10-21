@@ -64,14 +64,19 @@ class StudenController extends Controller
                 'matricula' => 'required|max:255|string|unique:validations,matricula',
             ]);
         }catch(\Exception $e){
-            return $e->errors();
+            return response()->json([
+                'error' => true,
+                'data' => $e->errors()
+            ]);
         }
 
+        $info = Student::where('matricula', $request->matricula)->first();
+
         Validation::create([
-            'student_id' => $request->student_id,
+            'student_id' => $info->id,
             'user_id' => $request->user_id,
             'matricula' => $request->matricula,
-            'validationResult' => $request->validationResult,
+            'validationResult' => 'RECONOCIDO',
         ]);
 
         return response()->json([
@@ -111,7 +116,10 @@ class StudenController extends Controller
                 'namePicture' => 'required|max:255|string|unique:students,namePicture',
             ]);
         }catch(\Exception $e){
-            return $e->errors();
+            return response()->json([
+                'error' => true,
+                'data' => $e->errors()
+            ]);
         }
 
         Student::where('matricula', $request->matricula)->update(['namePicture' => $request->namePicture]);
